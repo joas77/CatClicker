@@ -3,4 +3,4 @@ Project Coded along udacity course
 https://www.udacity.com/course/javascript-design-patterns--ud989
 
 * Version 0.0  simple cat clicker (Not in github) 
-* Version 1.0 cat clicker duo
+* Version 1.0 (v1.0) cat clicker duo
