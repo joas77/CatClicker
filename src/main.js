@@ -1,19 +1,70 @@
 
+const catNames = [
+    "Pashmino",
+    "Gauss",
+    "Gardfield",
+    "Meow",
+    "Micifuz"
+];
+const catImgLinks = [
+    "https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+    "https://images.pexels.com/photos/208984/pexels-photo-208984.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+    "https://images.pexels.com/photos/1741205/pexels-photo-1741205.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+    "https://images.pexels.com/photos/104827/cat-pet-animal-domestic-104827.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+    "https://images.pexels.com/photos/991831/pexels-photo-991831.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+];
 
-function catClicker(id, domSection, catName, img) {
-    domSection.innerHTML = `<p>${catName}</p>
-    <img id="catPicture_${id}" src="${img}" alt="cat picture">
-    <p></p>`;
-    let clickCounter = 0;
-    let catElem = document.getElementById(`catPicture_${id}`);
-    catElem.addEventListener("click", function(){
-        let clickCounterSection = document.getElementById(`counter${id}`);
-        clickCounterSection.innerHTML = `<p>You have Clicked ${++clickCounter} times</p>`;
-    });
+function Cat(name, linkImg) {
+    return {
+        name,
+        linkImg
+    };
 }
 
-let domSection1 = document.getElementById("catClicker1");
-let domSection2 = document.getElementById("catClicker2");
+function createCats(names, images) {
+    let cats = [];
+    for (let index = 0; index < names.length; index++) {
+        const cat = Cat(names[index], images[index]);
+        cats.push(cat);
+    }
+    return cats;
+}
 
-catClicker(1, domSection1, "Gauss", "https://lh3.ggpht.com/nlI91wYNCrjjNy5f-S3CmVehIBM4cprx-JFWOztLk7vFlhYuFR6YnxcT446AvxYg4Ab7M1Fy0twaOCWYcUk=s0#w=640&h=426");
-catClicker(2, domSection2, "Pashmino", "https://lh3.ggpht.com/kixazxoJ2ufl3ACj2I85Xsy-Rfog97BM75ZiLaX02KgeYramAEqlEHqPC3rKqdQj4C1VFnXXryadFs1J9A=s0#w=640&h=496");
+function generateDomCatList(cats, showCatFunc) {
+    let domCatList = document.getElementById("catList");
+
+    for (let index = 0; index < cats.length; index++) {
+        let domUl = document.createElement("li");
+        domUl.textContent = cats[index].name;
+        domCatList.insertAdjacentElement("beforebegin", domUl);
+        domUl.addEventListener("click", _ => showCatFunc(cats[index]));
+    }
+
+}
+
+function showCatCount(cat) {
+    let catArea = document.getElementById("catArea");
+    // cleaning content
+    catArea.innerHTML = "";
+    let domp = document.createElement("p");
+    domp.innerText = cat.name;
+    catArea.insertAdjacentElement("afterbegin", domp);
+    let catPic = document.createElement("img");
+    catPic.src = cat.linkImg;
+    catPic.alt = cat.name;
+    catArea.insertAdjacentElement("beforeend", catPic);
+
+    let dompCount = document.createElement("p");
+    let clickCount = 0;
+
+    catArea.addEventListener("click", function() {
+        dompCount.innerText = `You have clicked ${++clickCount} times!`;
+    });
+
+    catArea.insertAdjacentElement("beforeend", dompCount);
+}
+
+
+let cats = createCats(catNames, catImgLinks);
+generateDomCatList(cats, showCatCount);
+document.getElementsByName("img");
